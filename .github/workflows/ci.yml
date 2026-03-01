@@ -18,7 +18,7 @@ jobs:
 
   release:
     needs: test
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
@@ -31,6 +31,8 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - name: Install IINA
+        run: brew install --cask iina
       - run: npm ci
       - run: npx semantic-release
         env:

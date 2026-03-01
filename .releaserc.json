@@ -6,7 +6,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "node scripts/bump-info-version.js ${nextRelease.version}"
+        "prepareCmd": "node scripts/bump-info-version.js ${nextRelease.version} && npm run build && /Applications/IINA.app/Contents/MacOS/iina-plugin pack ."
       }
     ],
     [
@@ -22,6 +22,16 @@
         "message": "chore(release): ${nextRelease.version} [skip ci]"
       }
     ],
-    "@semantic-release/github"
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          {
+            "path": "*.iinaplgz",
+            "label": "IINA Plugin v${nextRelease.version}"
+          }
+        ]
+      }
+    ]
   ]
 }
