@@ -15,6 +15,7 @@
         "network-request"
     ],
     "allowedDomains": [
+        "api.myshows.me",
         "*"
     ],
     "preferencesPage": "pref.html",
