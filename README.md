@@ -31,10 +31,10 @@ Automatically marks TV show episodes and movies as watched in [MyShows](https://
 ## How It Works
 
 1. First, the plugin uses authentication floxy by https://github.com/Igorek1986 to authenticate using provided MyShows credentials, the proxy encapsulates Client ID which is required for authentication to work but can't be exposed publicly
-2. When a video file is loaded, the plugin extracts the filename and sends it to the MyShows API (`shows.SearchByFile`)
-3. If the API cannot identify the episode, the plugin parses the filename for a show name and season/episode pattern (e.g. `S01E03` or `1x03`) and searches via `shows.Search` + `shows.GetById`
+2. When a video file is loaded, the plugin extracts the filename and sends it to the MyShows API ([`shows.SearchByFile`](https://api.myshows.me/shared/doc/#!/shows/post_shows_SearchByFile))
+3. If the API cannot identify the episode, the plugin parses the filename for a show name and season/episode pattern (e.g. `S01E03` or `1x03`) and searches via [`shows.Search`](https://api.myshows.me/shared/doc/#!/shows/post_shows_Search) + [`shows.GetById`](https://api.myshows.me/shared/doc/#!/shows/post_shows_GetById)
 4. Once an episode is identified, playback progress is polled every 5 seconds during video playback
-5. When progress reaches the configured threshold, `manage.CheckEpisode` is called to mark the episode as watched
+5. When progress reaches the configured threshold, [`manage.CheckEpisode`](https://api.myshows.me/shared/doc/#!/manage/post_manage_CheckEpisode) is called to mark the episode as watched
 
 ## Development
 
