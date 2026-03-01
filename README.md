@@ -38,6 +38,49 @@ Automatically marks TV show episodes and movies as watched in [MyShows](https://
 4. Once an episode is identified, playback progress is polled every 5 seconds during video playback
 5. When progress reaches the configured threshold, [`manage.CheckEpisode`](https://api.myshows.me/shared/doc/#!/manage/post_manage_CheckEpisode) is called to mark the episode as watched
 
+```mermaid
+sequenceDiagram
+    participant IINA
+    participant Player as Plugin (player)
+    participant Global as Plugin (global)
+    participant Proxy as Auth Proxy
+    participant API as MyShows API
+
+    IINA->>Player: File loaded
+    Player->>Global: Search for episode by filename
+
+    alt Not authenticated yet
+        Global->>Proxy: Authenticate with username & password
+        Proxy-->>Global: Bearer token
+    end
+
+    Global->>API: Look up episode by filename
+    API-->>Global: Episode ID or empty
+
+    alt Episode not found by filename
+        Global->>Global: Parse show name, season & episode from filename
+        Global->>API: Search show by name
+        API-->>Global: List of matching shows
+        Global->>API: Get full episode list for best match
+        API-->>Global: Show with all episodes
+        Global->>Global: Match by season & episode number
+    end
+
+    alt Episode identified
+        Global-->>Player: Episode found
+        loop Every 5 seconds while playing
+            Player->>Player: Check playback progress
+        end
+        Player->>Global: Mark as watched
+        Global->>API: Mark episode as watched
+        API-->>Global: OK
+        Global-->>Player: Marked successfully
+        Player->>IINA: Show OSD confirmation
+    else Episode not identified
+        Global-->>Player: Episode not found, do nothing
+    end
+```
+
 ## Development
 
 ```sh
