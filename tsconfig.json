@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "strict": true,
+    "skipLibCheck": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./node_modules/iina-plugin-definition"
+    ],
+    "outDir": "./dist",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts"]
+}

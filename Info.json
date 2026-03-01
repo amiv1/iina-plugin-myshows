@@ -1,0 +1,26 @@
+{
+    "name": "MyShows",
+    "identifier": "com.github.amiv1.iina-plugin-myshows",
+    "version": "1.0.0",
+    "description": "Automatically marks currently watched episode in MyShows",
+    "author": {
+        "name": "Andrejs Mivreniks",
+        "email": "1240012+amiv1@users.noreply.github.com",
+        "url": "https://github.com/amiv1/iina-plugin-myshows"
+    },
+    "entry": "dist/index.js",
+    "globalEntry": "dist/global.js",
+    "permissions": [
+        "show-osd",
+        "network-request"
+    ],
+    "allowedDomains": [
+        "*"
+    ],
+    "preferencesPage": "pref.html",
+    "preferenceDefaults": {
+        "myshows_auth_proxy_url": "https://numparser.igorek1986.ru/myshows/auth",
+        "myshows_watched_threshold": 70,
+        "myshows_show_watched_osd": true
+    }
+}

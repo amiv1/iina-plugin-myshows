@@ -1,0 +1,38 @@
+{
+  "name": "myshows",
+  "version": "1.0.0",
+  "description": "Automatically marks currently watched episode in MyShows",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "rm -rf dist && parcel build .",
+    "test": "vitest run"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.16.4",
+    "iina-plugin-definition": "^0.99.3",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "parcel": "^2.16.4",
+    "parcel-optimizer-webview": "git+https://github.com/iina/parcel-optimizer-webview.git"
+  },
+  "browserslist": "safari >= 9",
+  "entry": "src/index.js",
+  "targets": {
+    "main": false,
+    "global": {
+      "distDir": "./dist/",
+      "source": "src/global.ts",
+      "isLibrary": false
+    },
+    "entry": {
+      "distDir": "./dist/",
+      "source": "src/index.ts",
+      "isLibrary": false
+    }
+  }
+}
