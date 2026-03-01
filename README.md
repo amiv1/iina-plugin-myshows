@@ -17,7 +17,7 @@ Automatically marks TV show episodes and movies as watched in [MyShows](https://
 ## Installation
 
 1. Open **IINA → Settings → Plugins** and click **Install from GitHub**
-2. Specify `amiv1/iina-plugin-myshows` in the input and click **Install**
+2. Paste `amiv1/iina-plugin-myshows` to the input and click **Install**
 3. It will show what permissions the plugin requests, click **Install** again
 4. **MyShows** should appear in the list of installed plugins, click on it
 5. Open **Preferences** tab and enter your MyShows credentials
@@ -30,7 +30,7 @@ Automatically marks TV show episodes and movies as watched in [MyShows](https://
 
 ## How It Works
 
-1. First, the plugin uses authentication floxy by @Igorek1986 to authenticate using provided MyShows credentials
+1. First, the plugin uses authentication floxy by https://github.com/Igorek1986 to authenticate using provided MyShows credentials, the proxy encapsulates Client ID which is required for authentication to work but can't be exposed publicly
 2. When a video file is loaded, the plugin extracts the filename and sends it to the MyShows API (`shows.SearchByFile`)
 3. If the API cannot identify the episode, the plugin parses the filename for a show name and season/episode pattern (e.g. `S01E03` or `1x03`) and searches via `shows.Search` + `shows.GetById`
 4. Once an episode is identified, playback progress is polled every 5 seconds during video playback
