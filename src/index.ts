@@ -24,6 +24,7 @@ import {
   MSG_EPISODE_NOT_FOUND,
   MSG_MARK_RESULT,
 } from "./messages";
+import { t } from "./i18n";
 
 const { console, event, core, preferences, global: globalAPI } = iina;
 
@@ -134,10 +135,10 @@ globalAPI.onMessage(MSG_EPISODE_NOT_FOUND, () => {
 globalAPI.onMessage(MSG_MARK_RESULT, (data) => {
   if (data.success) {
     const showOsd = (preferences.get("myshows_show_watched_osd") as boolean) ?? true;
-    if (showOsd) core.osd("✓ Marked as watched in MyShows");
+    if (showOsd) core.osd(t("markedAsWatched"));
     console.log("Episode marked as watched");
   } else {
-    core.osd("⚠ Failed to mark episode as watched in MyShows");
+    core.osd(t("failedToMark"));
     console.error("Failed to mark episode as watched");
   }
 });

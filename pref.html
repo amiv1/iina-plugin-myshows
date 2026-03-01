@@ -47,19 +47,19 @@
 
 <body>
   <div class="pref-section">
-    Authorization proxy URL:
+    <span data-i18n="proxyUrl">Authorization proxy URL:</span>
     <div style="margin-top: 2px">
       <input type="text" data-pref-key="myshows_auth_proxy_url" style="width: 100%; margin-top: 2px" />
     </div>
   </div>
   <div class="pref-section">
-    MyShows username:
+    <span data-i18n="username">MyShows username:</span>
     <div style="margin-top: 2px">
       <input type="text" data-pref-key="myshows_username" autocomplete="off" style="width: 100%; margin-top: 2px" />
     </div>
   </div>
   <div class="pref-section">
-    MyShows password:
+    <span data-i18n="password">MyShows password:</span>
     <div style="margin-top: 2px">
       <input type="password" data-pref-key="myshows_password" autocomplete="off" style="width: 100%; margin-top: 2px" />
     </div>
@@ -67,19 +67,38 @@
   <div class="pref-section">
     <label>
       <input type="checkbox" data-type="bool" data-pref-key="myshows_show_watched_osd" />
-      Show "Marked as watched" OSD message
+      <span data-i18n="showOsd">Show "Marked as watched" OSD message</span>
     </label>
   </div>
   <div class="pref-section">
-    Mark as watched at (% of playback progress):
+    <span data-i18n="threshold">Mark as watched at (% of playback progress):</span>
     <div style="margin-top: 2px">
       <input type="number" data-type="int" data-pref-key="myshows_watched_threshold" min="1" max="100" style="width: 5em; margin-top: 2px" />
       %
     </div>
-    <p class="small secondary pref-help">
+    <p class="small secondary pref-help" data-i18n="thresholdHelp">
       The episode will be marked as watched when playback reaches this percentage. Default: 70%.
     </p>
   </div>
+
+  <script>
+    const ru = {
+      proxyUrl:      "URL прокси аутентификации:",
+      username:      "Имя пользователя MyShows:",
+      password:      "Пароль MyShows:",
+      showOsd:       "Показывать уведомление «Отмечено как просмотренное»",
+      threshold:     "Отмечать как просмотренное при (% прогресса воспроизведения):",
+      thresholdHelp: "Серия будет отмечена как просмотренная, когда воспроизведение достигнет этого процента. По умолчанию: 70%.",
+    };
+
+    if (navigator.language.startsWith("ru")) {
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (ru[key]) el.textContent = ru[key];
+      });
+    }
+  </script>
 </body>
 
 </html>
+
