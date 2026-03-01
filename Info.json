@@ -1,7 +1,7 @@
 {
     "name": "MyShows",
     "identifier": "com.github.amiv1.iina-plugin-myshows",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Automatically marks currently watched episode in MyShows",
     "author": {
         "name": "Andrejs Mivreniks",
