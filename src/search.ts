@@ -121,11 +121,12 @@ export async function searchByFile(filename: string, player: string): Promise<vo
         if (result && Array.isArray(result) && result.length > 0) {
             const episodeId = parseInt(result[0] as string, 10);
             if (!isNaN(episodeId)) {
-                console.log(`Episode found: id=${episodeId}`);
+                console.log(`searchByFile found: id=${episodeId}`);
                 globalAPI.postMessage(player, MSG_EPISODE_FOUND, { episodeId });
                 return;
             }
         }
+        console.warn(`searchByFile not found`);
         await searchByParsedFilename(filename, player);
     } catch (e) {
         console.error(`searchByFile error: ${e instanceof Error ? e.message : JSON.stringify(e)}`);
