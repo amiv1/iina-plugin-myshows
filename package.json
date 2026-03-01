@@ -1,6 +1,6 @@
 {
   "name": "myshows",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatically marks currently watched episode in MyShows",
   "main": "src/index.js",
   "scripts": {
