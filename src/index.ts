@@ -26,7 +26,7 @@ import {
 } from "./messages";
 import { t } from "./i18n";
 
-const { console, event, core, preferences, global: globalAPI } = iina;
+const { console, event, core, mpv, preferences, global: globalAPI } = iina;
 
 /** File extensions treated as video files. Audio and other formats are skipped. */
 const VIDEO_EXTENSIONS = new Set([
@@ -79,8 +79,8 @@ function startProgressMonitor(): void {
   clearProgressInterval();
   progressInterval = setInterval(() => {
 
-    const position = core.status.position;
-    const duration = core.status.duration;
+    const position = mpv.getNumber("time-pos");
+    const duration = mpv.getNumber("duration");
     if (!duration || duration <= 0 || !position || position <= 0) return;
 
     if (core.status.paused) {
