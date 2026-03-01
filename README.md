@@ -1,5 +1,7 @@
 # IINA Plugin — MyShows
 
+[English](README.md) | [Русский](README.ru.md)
+
 Automatically marks TV show episodes and movies as watched in [MyShows](https://myshows.me) as you watch them in [IINA](https://iina.io).
 
 ## Features
