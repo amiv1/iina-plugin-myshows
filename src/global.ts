@@ -15,7 +15,6 @@
  */
 export { };
 
-import { authenticate } from "./auth";
 import { searchByFile, markWatched } from "./search";
 import { MSG_SEARCH_FILE, MSG_MARK_WATCHED } from "./messages";
 
@@ -29,4 +28,3 @@ globalAPI.onMessage(MSG_MARK_WATCHED, (data, player) => {
     if (player) markWatched(data.episodeId as number, player);
 });
 
-authenticate();
