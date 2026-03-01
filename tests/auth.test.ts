@@ -62,6 +62,17 @@ describe("authenticate", () => {
   });
 });
 
+describe("authenticate — concurrent calls", () => {
+  it("sends only one HTTP request when called concurrently", async () => {
+    iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { token: "tok" } });
+    const [r1, r2, r3] = await Promise.all([authenticate(), authenticate(), authenticate()]);
+    expect(r1).toBe(true);
+    expect(r2).toBe(true);
+    expect(r3).toBe(true);
+    expect(iinaMock.http.post).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("clearToken", () => {
   it("sets authToken to null", async () => {
     iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { token: "tok" } });

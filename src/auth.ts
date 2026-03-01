@@ -8,17 +8,34 @@
  * Call `clearToken()` to force re-authentication on the next API request.
  */
 
-const { console, http, preferences, global: globalAPI } = iina;
+const { console, http, preferences } = iina;
 
 /** Bearer token obtained after successful authentication. `null` when unauthenticated. */
 export let authToken: string | null = null;
 
+/** In-flight authentication promise, shared across concurrent callers. */
+let pendingAuth: Promise<boolean> | null = null;
+
 /**
  * Authenticates with MyShows using credentials from plugin preferences.
  *
+ * If an authentication request is already in progress, returns the existing
+ * promise so only one HTTP request is made regardless of how many callers
+ * invoke this concurrently.
+ *
  * @returns `true` if authentication succeeded and a token was obtained, `false` otherwise.
  */
-export async function authenticate(): Promise<boolean> {
+export function authenticate(): Promise<boolean> {
+    if (pendingAuth) return pendingAuth;
+
+    pendingAuth = performAuth().finally(() => {
+        pendingAuth = null;
+    });
+
+    return pendingAuth;
+}
+
+async function performAuth(): Promise<boolean> {
     const proxyUrl = preferences.get("myshows_auth_proxy_url") as string;
     const username = preferences.get("myshows_username") as string;
     const password = preferences.get("myshows_password") as string;
