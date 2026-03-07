@@ -34,6 +34,9 @@ const VIDEO_EXTENSIONS = new Set([
   "ts", "m2ts", "webm", "mpg", "mpeg", "rmvb", "3gp",
 ]);
 
+/** How often to poll for current video playback progress. */
+const POLLING_INTERVAL = 30000;
+
 /**
  * Returns `true` if the filename should be processed for episode identification.
  * Rejects files with no meaningful name (< 5 chars) and non-video extensions.
@@ -98,7 +101,7 @@ function startProgressMonitor(): void {
       clearProgressInterval();
       globalAPI.postMessage(MSG_MARK_WATCHED, { episodeId: currentEpisodeId });
     }
-  }, 5000);
+  }, POLLING_INTERVAL);
 }
 
 // When a new file is loaded, reset state and send the filename to the global
