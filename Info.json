@@ -20,7 +20,7 @@
     ],
     "preferencesPage": "pref.html",
     "preferenceDefaults": {
-        "myshows_auth_proxy_url": "https://numparser.igorek1986.ru/myshows/auth",
+        "myshows_auth_proxy_url": "https://myshows.igorek1986.ru/myshows/auth",
         "myshows_watched_threshold": 70,
         "myshows_show_watched_osd": true
     }
