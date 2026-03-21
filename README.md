@@ -68,7 +68,7 @@ sequenceDiagram
 
     alt Episode identified
         Global-->>Player: Episode found
-        loop Every 5 seconds while playing
+        loop Every N seconds while playing
             Player->>Player: Check playback progress
         end
         Player->>Global: Mark as watched
