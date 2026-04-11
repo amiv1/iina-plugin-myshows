@@ -32,7 +32,7 @@
 
 ## Как это работает
 
-1. Плагин использует прокси аутентификации от https://github.com/Igorek1986, который хранит Client ID, необходимый для работы с MyShows API
+1. Плагин использует прокси аутентификации от https://github.com/Igorek1986, который хранит Client ID, необходимый для работы с MyShows API. См. https://github.com/Igorek1986/lampa-plugins/tree/main/example_myshows_proxy если хотите поднять свой сервер аутентификации.
 2. При загрузке видеофайла плагин извлекает имя файла и отправляет его в MyShows API ([`shows.SearchByFile`](https://api.myshows.me/shared/doc/#!/shows/post_shows_SearchByFile))
 3. Если API не смог найти серию, плагин парсит имя файла в поисках названия сериала и номера сезона/серии (например, `S01E03` или `1x03`) и выполняет поиск через [`shows.Search`](https://api.myshows.me/shared/doc/#!/shows/post_shows_Search) + [`shows.GetById`](https://api.myshows.me/shared/doc/#!/shows/post_shows_GetById)
 4. После определения серии, каждые 5 секунд отслеживается прогресс воспроизведения
