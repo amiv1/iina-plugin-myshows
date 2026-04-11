@@ -10,16 +10,14 @@ const isRussian = Intl.DateTimeFormat().resolvedOptions().locale.startsWith("ru"
 
 const translations = {
     en: {
-        markedAsWatched:    "✓ Marked as watched in MyShows",
-        failedToMark:       "⚠ Failed to mark episode as watched in MyShows",
-        authFailed:         "⚠ MyShows: authentication failed",
-        authError:          "⚠ MyShows: authentication error",
+        markedAsWatched: "✓ Marked as watched in MyShows",
+        failedToMark:    "⚠ Failed to mark episode as watched in MyShows",
+        authFailed:      "⚠ MyShows: authentication failed",
     },
     ru: {
-        markedAsWatched:    "✓ Отмечено как просмотренное в MyShows",
-        failedToMark:       "⚠ Не удалось отметить эпизод как просмотренный в MyShows",
-        authFailed:         "⚠ MyShows: ошибка аутентификации",
-        authError:          "⚠ MyShows: ошибка аутентификации",
+        markedAsWatched: "✓ Отмечено как просмотренное в MyShows",
+        failedToMark:    "⚠ Не удалось отметить эпизод как просмотренный в MyShows",
+        authFailed:      "⚠ MyShows: ошибка аутентификации",
     },
 } as const;
 

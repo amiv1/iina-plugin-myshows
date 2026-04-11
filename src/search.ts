@@ -13,7 +13,8 @@
  */
 
 import { rpcCall } from "./api";
-import { MSG_EPISODE_FOUND, MSG_EPISODE_NOT_FOUND, MSG_MARK_RESULT } from "./messages";
+import { authToken } from "./auth";
+import { MSG_EPISODE_FOUND, MSG_EPISODE_NOT_FOUND, MSG_MARK_RESULT, MSG_AUTH_ERROR } from "./messages";
 
 const { console, global: globalAPI } = iina;
 
@@ -118,6 +119,10 @@ export async function searchByFile(filename: string, player: string): Promise<vo
     console.log(`searchByFile: file="${filename}"`);
     try {
         const result = await rpcCall("shows.SearchByFile", { file: filename });
+        if (result === null && !authToken) {
+            globalAPI.postMessage(player, MSG_AUTH_ERROR, {});
+            return;
+        }
         if (result && Array.isArray(result) && result.length > 0) {
             const episodeId = parseInt(result[0] as string, 10);
             if (!isNaN(episodeId)) {

@@ -14,5 +14,8 @@ export const MSG_EPISODE_FOUND = "myshows.episode-found";
 /** Sent by the global script to a player when no episode could be identified. Payload: `{}` */
 export const MSG_EPISODE_NOT_FOUND = "myshows.episode-not-found";
 
+/** Sent by the global script to a player when authentication fails. Payload: `{}` */
+export const MSG_AUTH_ERROR = "myshows.auth-error";
+
 /** Sent by the global script to a player with the result of a mark-watched call. Payload: `{ success }` */
 export const MSG_MARK_RESULT = "myshows.mark-result";

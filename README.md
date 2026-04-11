@@ -2,56 +2,55 @@
 
 [English](README.md) | [Русский](README.ru.md)
 
-Automatically marks TV show episodes and movies as watched in [MyShows](https://myshows.me) as you watch them in [IINA](https://iina.io).
+Автоматически отмечает просмотренные серии сериалов и фильмы в [MyShows](https://myshows.me) во время просмотра в [IINA](https://iina.io).
 
-## Features
+## Возможности
 
-- Detects the currently playing episode by sending the filename to the MyShows API
-- Falls back to parsing the filename (show name + season/episode numbers) when the direct lookup fails
-- Marks the episode as watched once playback reaches a configurable progress threshold (default: 70%)
-- Shows an OSD confirmation when an episode is marked as watched
+- Определяет текущую серию, отправляя имя файла в MyShows API
+- Если прямой поиск не дал результата, парсит имя файла (название сериала + номер сезона/серии)
+- Отмечает серию как просмотренную, когда воспроизведение достигает настраиваемого порога (по умолчанию: 70%)
+- Показывает сообщение на экране при отметке серии
 
-## Requirements
+## Требования
 
-- [IINA](https://iina.io) 1.3.0 or later with plugin support enabled
-- A [MyShows](https://myshows.me) account
+- [IINA](https://iina.io) 1.3.0 или новее с включённой поддержкой плагинов
+- Аккаунт на [MyShows](https://myshows.me)
 
-## Installation
+## Установка
 
-1. Open **IINA → Settings → Plugins** and click **Install from GitHub**
-2. Paste `amiv1/iina-plugin-myshows` to the input and click **Install**
-3. It will show what permissions the plugin requests, click **Install** again
-4. **MyShows** should appear in the list of installed plugins, click on it
-5. Open **Preferences** tab and enter your MyShows credentials
-6. If you have video opened, reopen it or restart IINA
+1. Откройте **IINA → Настройки → Плагины** и нажмите **Установить с GitHub**
+2. Введите `amiv1/iina-plugin-myshows` и нажмите **Установить**
+3. Плагин покажет запрашиваемые разрешения — нажмите **Установить** ещё раз
+4. **MyShows** появится в списке установленных плагинов — нажмите на него
+5. Откройте вкладку **Настройки** и введите данные вашего аккаунта MyShows
+6. Если видео уже открыто, переоткройте его или перезапустите IINA
 
-### Requested permissions
+### Запрашиваемые разрешения
 
-- **Network Request**: Used to make requests towards authentication proxy (configurable) and MyShows API
-- **Show OSD**: To show when an episode has been marked as watched, if enabled in the preferences
+- **Сеть**: для обращений к MyShows API (аутентификация и управление просмотром)
+- **Показывать сообщения на экране**: для отображения уведомления при отметке эпизода, если включено в настройках
 
-## How It Works
+## Как это работает
 
-1. First, the plugin uses authentication proxy by https://github.com/Igorek1986 to authenticate using provided MyShows credentials, the proxy encapsulates Client ID which is required for authentication to work but can't be exposed publicly. See https://github.com/Igorek1986/lampa-plugins/tree/main/example_myshows_proxy for details on how to self-host your own auth proxy.
-2. When a video file is loaded, the plugin extracts the filename and sends it to the MyShows API ([`shows.SearchByFile`](https://api.myshows.me/shared/doc/#!/shows/post_shows_SearchByFile))
-3. If the API cannot identify the episode, the plugin parses the filename for a show name and season/episode pattern (e.g. `S01E03` or `1x03`) and searches via [`shows.Search`](https://api.myshows.me/shared/doc/#!/shows/post_shows_Search) + [`shows.GetById`](https://api.myshows.me/shared/doc/#!/shows/post_shows_GetById)
-4. Once an episode is identified, playback progress is polled every 5 seconds during video playback
-5. When progress reaches the configured threshold, [`manage.CheckEpisode`](https://api.myshows.me/shared/doc/#!/manage/post_manage_CheckEpisode) is called to mark the episode as watched
+1. Плагин аутентифицируется напрямую в MyShows, отправляя учётные данные на `https://myshows.me/api/session` и получая bearer-токен.
+2. При загрузке видеофайла плагин извлекает имя файла и отправляет его в MyShows API ([`shows.SearchByFile`](https://api.myshows.me/shared/doc/#!/shows/post_shows_SearchByFile))
+3. Если API не смог найти серию, плагин парсит имя файла в поисках названия сериала и номера сезона/серии (например, `S01E03` или `1x03`) и выполняет поиск через [`shows.Search`](https://api.myshows.me/shared/doc/#!/shows/post_shows_Search) + [`shows.GetById`](https://api.myshows.me/shared/doc/#!/shows/post_shows_GetById)
+4. После определения серии, каждые 5 секунд отслеживается прогресс воспроизведения
+5. Когда прогресс достигает заданного порога, вызывается [`manage.CheckEpisode`](https://api.myshows.me/shared/doc/#!/manage/post_manage_CheckEpisode) для отметки эпизода как просмотренного
 
 ```mermaid
 sequenceDiagram
     participant IINA
     participant Player as Plugin (player)
     participant Global as Plugin (global)
-    participant Proxy as Auth Proxy
     participant API as MyShows API
 
     IINA->>Player: File loaded
     Player->>Global: Search for episode by filename
 
     alt Not authenticated yet
-        Global->>Proxy: Authenticate with username & password
-        Proxy-->>Global: Bearer token
+        Global->>API: Authenticate with username & password (POST /api/session)
+        API-->>Global: Bearer token
     end
 
     Global->>API: Look up episode by filename
@@ -81,28 +80,28 @@ sequenceDiagram
     end
 ```
 
-## Development
+## Разработка
 
 ```sh
-# Install dependencies
+# Установить зависимости
 npm install
 
-# Build
+# Собрать проект
 npm run build
 
-# Run tests
+# Запустить тесты
 npm test
 
-# Write a conventional commit (used for automatic versioning)
+# Создать коммит в формате conventional commits (используется для автоматического версионирования)
 npm run commit
 ```
 
-### Releases
+### Релизы
 
-Releases are automated via [semantic-release](https://semantic-release.gitbook.io). Commits to `main` that follow the [Conventional Commits](https://www.conventionalcommits.org) format will automatically trigger a version bump, build, plugin packaging, and GitHub release.
+Релизы автоматизированы через [semantic-release](https://semantic-release.gitbook.io). Коммиты в ветке `main`, соответствующие формату [Conventional Commits](https://www.conventionalcommits.org), автоматически запускают обновление версии, сборку, упаковку плагина и создание GitHub-релиза.
 
-| Commit type | Version bump |
+| Тип коммита | Тип версии |
 |---|---|
-| `fix:` | Patch (1.0.x) |
-| `feat:` | Minor (1.x.0) |
-| `feat!:` / `BREAKING CHANGE` | Major (x.0.0) |
+| `fix:` | Патч (1.0.x) |
+| `feat:` | Минорная (1.x.0) |
+| `feat!:` / `BREAKING CHANGE` | Мажорная (x.0.0) |

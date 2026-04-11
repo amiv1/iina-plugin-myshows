@@ -15,12 +15,11 @@
         "network-request"
     ],
     "allowedDomains": [
-        "api.myshows.me",
-        "*"
+        "myshows.me",
+        "api.myshows.me"
     ],
     "preferencesPage": "pref.html",
     "preferenceDefaults": {
-        "myshows_auth_proxy_url": "https://myshows.igorek1986.ru/myshows/auth",
         "myshows_watched_threshold": 70,
         "myshows_show_watched_osd": true
     }

@@ -13,7 +13,6 @@ beforeEach(() => {
   clearToken();
   iinaMock.preferences.get.mockImplementation((key: string) => {
     const prefs: Record<string, unknown> = {
-      myshows_auth_proxy_url: "https://proxy.example.com/auth",
       myshows_username: "user",
       myshows_password: "pass",
     };
@@ -29,18 +28,23 @@ describe("authenticate", () => {
     expect(iinaMock.console.warn).toHaveBeenCalledWith("MyShows credentials not configured");
   });
 
-  it("returns true and stores token from 'token' field on success", async () => {
-    iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { token: "abc123" } });
+  it("returns true and stores token on success", async () => {
+    iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { token: "abc123", refreshToken: "ref456" } });
     const result = await authenticate();
     expect(result).toBe(true);
     expect(authToken).toBe("abc123");
   });
 
-  it("returns true and stores token from 'access_token' field on success", async () => {
-    iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { access_token: "xyz789" } });
-    const result = await authenticate();
-    expect(result).toBe(true);
-    expect(authToken).toBe("xyz789");
+  it("sends form-encoded body to MyShows session endpoint", async () => {
+    iinaMock.http.post.mockResolvedValue({ statusCode: 200, data: { token: "abc123" } });
+    await authenticate();
+    expect(iinaMock.http.post).toHaveBeenCalledWith(
+      "https://myshows.me/api/session",
+      expect.objectContaining({
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        data: { login: "user", password: "pass" },
+      })
+    );
   });
 
   it("returns false and warns on non-200 status", async () => {

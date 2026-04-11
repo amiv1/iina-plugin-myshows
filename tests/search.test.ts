@@ -97,6 +97,17 @@ describe("searchByFile — primary (SearchByFile)", () => {
     );
   });
 
+  it("posts auth-error when authentication fails", async () => {
+    // Auth request fails — no token is set, rpcCall returns null
+    iinaMock.http.post.mockResolvedValue({ statusCode: 401, data: null });
+    await searchByFile("Breaking.Bad.S01E03.mkv", "player-1");
+    expect(iinaMock.global.postMessage).toHaveBeenCalledWith(
+      "player-1",
+      "myshows.auth-error",
+      {}
+    );
+  });
+
   it("posts episode-not-found when SearchByFile returns an empty array", async () => {
     // Empty primary result triggers fallback; fallback search returns nothing
     mockRpcSequence([], []);

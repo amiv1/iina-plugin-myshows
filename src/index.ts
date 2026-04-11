@@ -13,6 +13,7 @@
  * Message protocol (received from global script):
  * - `MSG_EPISODE_FOUND` `{ episodeId }` — start progress monitoring
  * - `MSG_EPISODE_NOT_FOUND` `{}` — no episode identified, do nothing
+ * - `MSG_AUTH_ERROR` `{}` — authentication failed, show OSD error
  * - `MSG_MARK_RESULT` `{ success }` — show OSD confirmation or log error
  */
 export { };
@@ -23,6 +24,7 @@ import {
   MSG_EPISODE_FOUND,
   MSG_EPISODE_NOT_FOUND,
   MSG_MARK_RESULT,
+  MSG_AUTH_ERROR,
 } from "./messages";
 import { t } from "./i18n";
 
@@ -132,6 +134,12 @@ globalAPI.onMessage(MSG_EPISODE_FOUND, (data) => {
 
 globalAPI.onMessage(MSG_EPISODE_NOT_FOUND, () => {
   // No episode found for this file — silently do nothing.
+});
+
+// Received when authentication with MyShows fails.
+globalAPI.onMessage(MSG_AUTH_ERROR, () => {
+  core.osd(t("authFailed"));
+  console.error("MyShows authentication failed");
 });
 
 // Received after a mark-watched attempt; show OSD confirmation on success if enabled.
